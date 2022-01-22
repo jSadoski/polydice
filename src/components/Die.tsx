@@ -1,4 +1,4 @@
-import { Box, Square } from "@chakra-ui/react";
+import { Square } from "@chakra-ui/react";
 
 export function Die({ children }: { children: React.ReactChild }) {
   return (
