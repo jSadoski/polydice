@@ -10,7 +10,8 @@ export function Die({ children }: { children: React.ReactChild }) {
       fontWeight={"bold"}
       fontFamily={"cursive"}
       fontSize={"xx-large"}
-      bgColor="blue"
+      bgColor={"blue"}
+      shadow="lg"
       rounded={"10px"}
     >
       {children}
