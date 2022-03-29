@@ -1,29 +1,58 @@
 import { useReducer } from "react";
 import { DieRoll } from "../../types/roll";
+import { assertUnreachable } from "../../utils/assertUnreachable";
 import { makeEqualSidedDice } from "../../utils/diceFactory";
 import { generateRandomDiceRoll } from "../../utils/generateRandomNumber";
 
-interface Action {
-  type: string;
+export enum ActionType {
+  ROLL_ALL,
+  ADD_DIE,
+  REMOVE_DIE,
+}
+
+interface ActionBase {
+  type: ActionType;
+}
+
+interface ActionNoPayload extends ActionBase {
+  type: ActionType.ROLL_ALL | ActionType.ADD_DIE;
+}
+
+interface RemoveAction extends ActionBase {
+  type: ActionType.REMOVE_DIE;
+  index: number;
+}
+
+type Action = ActionNoPayload | RemoveAction;
+
+function makeNewDieWithRandomRoll(numOfDice: number, sides: number) {
+  return makeEqualSidedDice(numOfDice, sides).map((die) => ({
+    ...die,
+    rollValue: generateRandomDiceRoll(),
+  }));
 }
 
 function reducer(state: DieRoll[], action: Action): DieRoll[] {
   switch (action.type) {
-    case "rollall":
+    case ActionType.ROLL_ALL:
       return state.map((die) => ({
         ...die,
         rollValue: generateRandomDiceRoll(),
       }));
+    case ActionType.ADD_DIE:
+      const newDie = makeNewDieWithRandomRoll(1, 6)[0];
+      return [...state, newDie];
+    case ActionType.REMOVE_DIE:
+      const newState = [...state];
+      newState.splice(action.index, 1);
+      return newState;
     default:
-      throw new Error("Action type not recognized");
+      assertUnreachable(action);
   }
 }
 
 function initialDiceRoll(): DieRoll[] {
-  return makeEqualSidedDice(5, 6).map((die) => ({
-    ...die,
-    rollValue: generateRandomDiceRoll(),
-  }));
+  return makeNewDieWithRandomRoll(5, 6);
 }
 export function useDice() {
   return useReducer(reducer, initialDiceRoll());

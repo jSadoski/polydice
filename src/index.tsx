@@ -4,6 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { ColorModeScript } from "@chakra-ui/react";
+import "./assets/polydice.css";
 
 ReactDOM.render(
   <React.StrictMode>

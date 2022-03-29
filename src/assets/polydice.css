@@ -1,0 +1,7 @@
+.die .close {
+  display: none;
+}
+
+.die:hover .close {
+  display: block;
+}

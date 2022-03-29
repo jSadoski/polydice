@@ -7,7 +7,10 @@ function App() {
     <ChakraProvider theme={theme}>
       <Box textAlign="center" bgColor={"whiteAlpha.50"}>
         <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
+          <ColorModeSwitcher
+            justifySelf="flex-end"
+            data-testid="color-mode-switcher"
+          />
           <DiceRoller />
         </Grid>
       </Box>
